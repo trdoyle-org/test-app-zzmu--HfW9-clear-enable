@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/created-by: application-service
+    app.kubernetes.io/instance: test-component-qzfi
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: test-component-qzfi
+    app.kubernetes.io/part-of: test-app-zzmu
+  name: test-component-qzfi
+  namespace: build-e2e-hacbs-ybim
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: test-component-qzfi
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/instance: test-component-qzfi
+    spec:
+      containers:
+      - image: quay.io/redhat-appstudio-qe/test-images:f80ad8ecc6d6450dabeab592ef61d178
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8081
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        name: container-image
+        ports:
+        - containerPort: 8081
+        readinessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          tcpSocket:
+            port: 8081
+        resources: {}
+status: {}
